@@ -1,0 +1,24 @@
+%p.notice 
+	=notice
+
+%p
+	%b Name:
+	= @element.name
+
+
+%p
+	%b Body:
+	=raw RedCloth.new(@element.body).to_html
+
+
+%p
+	%b User:
+	= @element.user_id
+
+%p
+	%b Publish Effective At:
+	=@element.publish_effective_at
+
+
+= link_to 'Edit', edit_element_path(@element)
+= link_to 'Back', elements_path

@@ -10,12 +10,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101202224033) do
+ActiveRecord::Schema.define(:version => 20101214222014) do
 
   create_table "elements", :force => true do |t|
     t.string   "name"
     t.string   "body"
-    t.string   "user_id"
+    t.integer  "owner_id",             :limit => 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "publish_effective_at"

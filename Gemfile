@@ -15,3 +15,5 @@ gem 'rails3-generators'
 gem "haml"
 
 gem "RedCloth"
+
+gem 'factory_girl_rails'

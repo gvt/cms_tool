@@ -2,20 +2,13 @@ require 'spec_helper'
 
 describe "elements/show.html.erb" do
   before(:each) do
-    @element = assign(:element, stub_model(Element,
-      :name => "Name",
-      :body => "Body",
-      :user_id => "User"
-    ))
+    @element = assign(:element, Factory.create(:element))
   end
 
   it "renders attributes in <p>" do
     render
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
-    rendered.should match(/Name/)
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
-    rendered.should match(/Body/)
-    # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
-    rendered.should match(/User/)
+    rendered.should match(@element.name)
+    rendered.should match(@element.body)
+    rendered.should match(@element.owner.name)
   end
 end

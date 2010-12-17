@@ -11,7 +11,7 @@
 		%tr
 			%td= element.name
 			%td= raw RedCloth.new(element.body).to_html
-			%td= element.owner.login
+			%td= element.owner.name
 			%td= element.publish_effective_at
 			%td= link_to 'Show', element
 			%td= link_to 'Edit', edit_element_path(element)

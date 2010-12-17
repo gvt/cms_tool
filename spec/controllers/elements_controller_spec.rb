@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe ElementsController do
+  before(:each) do
+    activate_authlogic
+    UserSession.create Factory.build(:user)
+  end
 
   def mock_element(stubs={})
     (@mock_element ||= mock_model(Element).as_null_object).tap do |element|

@@ -10,7 +10,7 @@ Factory.define :user do |f|
   f.password 'secret'
   f.password_confirmation 'secret'
   f.password_salt 'secret'
-  f.persistence_token
+  f.sequence(:persistence_token) {|n| "asdqweasdqweasdqwe#{n}" }
   f.perishable_token
   f.association :account
 end

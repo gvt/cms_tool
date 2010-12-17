@@ -8,7 +8,7 @@ require 'rspec/rails'
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 ##
-# ask rspec to play nice with AuthLogic: require & include Authlogic::TestCase
+# ask rspec to play nice with AuthLogic: require & include Authlogic::TestCase in order to use method activate_authlogic
 require "authlogic/test_case"
 include Authlogic::TestCase
 

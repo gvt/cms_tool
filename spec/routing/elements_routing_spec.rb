@@ -3,6 +3,10 @@ require "spec_helper"
 describe ElementsController do
   describe "routing" do
 
+    it "recognizes and generates #home_page" do
+      { :get => "/" }.should route_to(:controller => "elements", :action => "home_page")
+    end
+
     it "recognizes and generates #index" do
       { :get => "/elements" }.should route_to(:controller => "elements", :action => "index")
     end

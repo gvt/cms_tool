@@ -12,6 +12,14 @@ describe ElementsController do
     end
   end
 
+  describe "GET home_page" do
+    it "should render" do
+      get :home_page
+      response.should be_success
+      response.should render_template("home_page")
+    end
+  end
+
   describe "GET index" do
     it "assigns all elements as @elements" do
       Element.stub(:all) { [mock_element] }

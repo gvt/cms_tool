@@ -1,8 +1,8 @@
 class ElementsController < ApplicationController
+  before_filter :require_user, :except => :home_page
+  
   # GET /elements
   # GET /elements.xml
-  before_filter :require_user
-  
   def index
     @elements = Element.all
 

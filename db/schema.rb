@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(:version => 20101216220533) do
   create_table "elements", :force => true do |t|
     t.string   "name"
     t.string   "body"
-    t.integer  "owner_id",             :limit => 255
+    t.integer  "owner_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "publish_effective_at"

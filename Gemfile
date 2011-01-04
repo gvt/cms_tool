@@ -6,8 +6,11 @@ gem 'authlogic'
 gem 'rails3-generators'
 gem "haml"
 gem "RedCloth"
-# mysql2 for use in Production env on EngineYard AppCloud
-gem "mysql2"
+
+group :production do
+	# mysql2 for use in Production env on EngineYard AppCloud
+	gem "mysql2"
+end
 
 group :test, :development do
   gem 'sqlite3-ruby', :require => 'sqlite3'

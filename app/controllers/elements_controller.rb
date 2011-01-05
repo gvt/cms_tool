@@ -27,6 +27,7 @@ class ElementsController < ApplicationController
   # GET /elements/new.xml
   def new
     @element = Element.new
+    @users = User.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -37,6 +38,7 @@ class ElementsController < ApplicationController
   # GET /elements/1/edit
   def edit
     @element = Element.find(params[:id])
+    @users = User.all
   end
 
   # POST /elements

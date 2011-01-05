@@ -12,6 +12,12 @@ describe ElementsController do
     end
   end
 
+  def mock_user(stubs={})
+    (@mock_user ||= mock_model(User).as_null_object).tap do |user|
+      element.stub(stubs) unless stubs.empty?
+    end
+  end
+  
   describe "GET home_page" do
     it "should render" do
       get :home_page
@@ -37,18 +43,33 @@ describe ElementsController do
   end
 
   describe "GET new" do
+    before(:each) do
+      User.delete_all
+      @user_mock = Factory.create(:user)
+    end
     it "assigns a new element as @element" do
-      Element.stub(:new) { mock_element }
       get :new
-      assigns(:element).should be(mock_element)
+      assigns(:element).new_record?.should be_true 
+    end
+    it "assigns all users to @users" do
+      get :new
+      assigns(:users).should eq([@user_mock])
     end
   end
 
   describe "GET edit" do
+    before(:each) do
+      User.delete_all
+      @user_mock = Factory.create(:user)
+      @element_mock = Factory.create(:element)
+    end
     it "assigns the requested element as @element" do
-      Element.stub(:find).with("37") { mock_element }
-      get :edit, :id => "37"
-      assigns(:element).should be(mock_element)
+      get :edit, :id => @element_mock.id
+      assigns(:element).should eq(@element_mock)
+    end
+    it "assigns all users to @users" do
+      get :edit, :id => @element_mock.id
+      assigns(:users).first.should eq(@user_mock)
     end
   end
 

@@ -90,19 +90,20 @@ describe ElementsController do
     end
 
     describe "with invalid params" do
-      it "assigns a newly created but unsaved element as @element" do
-        Element.stub(:new).with({'these' => 'params'}) { mock_element(:save => false) }
-        post :create, :element => {'these' => 'params'}
-        assigns(:element).should be(mock_element)
-      end
-
-      it "re-renders the 'new' template" do
-        Element.stub(:new) { mock_element(:save => false) }
+      before do
+        @element = Factory.build(:element)
         post :create, :element => {}
+      end
+      it "renders success" do
+        response.should be_success
+      end
+      it "renders the new template" do  
         response.should render_template("new")
       end
+      it "has flash content" do
+        assigns[:element].errors.should_not be_empty
+      end
     end
-
   end
 
   describe "PUT update" do

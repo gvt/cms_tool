@@ -1,5 +1,6 @@
 class ElementsController < ApplicationController
   before_filter :require_user, :except => :home_page
+  before_filter :fetch_users, :except =>  [:index, :destroy]
   
   # GET /elements
   # GET /elements.xml
@@ -27,7 +28,6 @@ class ElementsController < ApplicationController
   # GET /elements/new.xml
   def new
     @element = Element.new
-    @users = User.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -38,20 +38,18 @@ class ElementsController < ApplicationController
   # GET /elements/1/edit
   def edit
     @element = Element.find(params[:id])
-    @users = User.all
   end
 
   # POST /elements
   # POST /elements.xml
   def create
     @element = Element.new(params[:element])
-
     respond_to do |format|
       if @element.save
         format.html { redirect_to(@element, :notice => 'Element was successfully created.') }
         format.xml  { render :xml => @element, :status => :created, :location => @element }
       else
-        format.html { render :action => "new" }
+        format.html { render :action => "new", :error => @element.errors.full_messages.to_sentence }
         format.xml  { render :xml => @element.errors, :status => :unprocessable_entity }
       end
     end
@@ -83,5 +81,11 @@ class ElementsController < ApplicationController
       format.html { redirect_to(elements_url) }
       format.xml  { head :ok }
     end
+  end
+
+
+private
+  def fetch_users
+    @users = User.all
   end
 end

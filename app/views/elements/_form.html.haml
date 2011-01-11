@@ -20,9 +20,9 @@
 		= f.text_area :body
 
 	.field
-		= f.label :owner 
+		= f.label :owner
 		%br
-		=collection_select(:element, :owner_id , @users, :id, :name, :include_blank => true)
+		= f.collection_select(:owner_id , @users, :id, :name, :include_blank => true)
 
 	.field
 		= f.label :publish_effective_at 

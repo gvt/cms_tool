@@ -22,4 +22,6 @@ describe Account do
     @account.users.should include(@user1)
     @account.users.should include(@user2)
   end  
+  
+  pending "test automatic creation subdomain"
 end

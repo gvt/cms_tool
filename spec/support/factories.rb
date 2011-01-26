@@ -12,8 +12,9 @@ Factory.define :user do |f|
   f.password_salt 'secret'
   f.sequence(:persistence_token) {|n| "asdqweasdqweasdqwe#{n}" }
   f.perishable_token
-  f.association :account
+  f.accounts {|u| [u.association(:account)]}
 end
 
 Factory.define :account do |f| 
 end
+

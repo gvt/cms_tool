@@ -24,4 +24,8 @@ describe Account do
   end  
   
   pending "test automatic creation subdomain"
+  
+  it "responds to_slug" do
+    @account.name.should respond_to(:to_slug)
+  end
 end

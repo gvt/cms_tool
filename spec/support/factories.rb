@@ -16,5 +16,6 @@ Factory.define :user do |f|
 end
 
 Factory.define :account do |f| 
+  f.name 'Banana Seller'
 end
 

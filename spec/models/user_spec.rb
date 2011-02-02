@@ -1,14 +1,6 @@
 require 'spec_helper'
 
 describe User do
-  describe "validations" do
-    it "account existance" do
-      User.delete_all
-      user       = Factory.build :user, :accounts  => []
-      user.valid?.should be_false
-      user.save.should be_false
-    end
-  end
   
   describe "association with accounts" do
     before (:each) do

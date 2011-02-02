@@ -1,7 +1,10 @@
 CmsTool::Application.routes.draw do
   
+  get "users/dashboard"
+
   resources :elements
   resources :user_sessions
+  resources :accounts
   
   constraints(Subdomain) do  
       match '/' => 'accounts#show'    
@@ -11,6 +14,6 @@ CmsTool::Application.routes.draw do
   match 'logout' => "user_sessions#destroy", :as => :logout
   get 'user_sessions/new'
   
-  root :to => "elements#home_page"
+  root :to => "application#index"
   
 end

@@ -1,0 +1,36 @@
+%h3 Create a New Account
+
+= form_for(@account) do |f|
+	-if @account.errors.any?
+		#error_explanation
+			%h2
+				= pluralize(@account.errors.count, "error")
+				prohibited this element from being saved:
+			%ul 
+				-@account.errors.full_messages.each do |msg|
+					%li
+						= msg
+	= f.label :name, "Account Name"
+	%br
+	= f.text_field :name
+	
+	=f.fields_for :users do |form|
+
+		.field
+			=form.label :login
+			%br
+			=form.text_field :login
+			%br
+		.field
+			=form.label :password
+			%br
+			=form.text_field :password
+			%br
+		.field
+			= form.label :password_confirmation
+			%br
+			= form.text_field :password_confirmation
+			%br
+
+	.actions
+	= f.submit

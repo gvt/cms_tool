@@ -23,9 +23,10 @@ describe Account do
     @account.users.should include(@user2)
   end  
   
-  pending "test automatic creation subdomain"
+  pending "test automatic creation subdomain (to_slug)"
   
   it "responds to_slug" do
     @account.name.should respond_to(:to_slug)
   end
+
 end

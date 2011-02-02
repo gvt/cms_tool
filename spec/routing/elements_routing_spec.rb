@@ -2,14 +2,6 @@ require "spec_helper"
 
 describe ElementsController do
   describe "routing" do
-
-    pending "recognizes and generates #home_page" do
-      { :get => "http://example.com/" }.should route_to(:controller => "elements", :action => "home_page")
-    end
-    
-    pending "recognizes and generates #home_page" do
-      { :get => "http://foo.example.com/" }.should route_to(:controller => "accounts", :action => "show", :subdomain  => "foo")
-    end
     
     it "recognizes and generates #index" do
       { :get => "/elements" }.should route_to(:controller => "elements", :action => "index")

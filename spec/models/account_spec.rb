@@ -23,10 +23,13 @@ describe Account do
     @account.users.should include(@user2)
   end  
   
-  pending "test automatic creation subdomain (to_slug)"
-  
-  it "responds to_slug" do
-    @account.name.should respond_to(:to_slug)
+  describe "test automatic creation subdomain" do
+    it "responds to_slug" do
+      @account.name.should respond_to(:to_slug)
+    end
+    it "creates a slug in account.subdomain" do
+      account = Factory.create(:account, :name => "Lots Of Boxes")
+      account.name.to_slug.should eq(account.subdomain)
+    end
   end
-
 end

@@ -1,6 +1,6 @@
 CmsTool::Application.routes.draw do
   
-  get "users/dashboard"
+  get "users/dashboard", :as => "user_dashboard"
 
   resources :elements
   resources :user_sessions

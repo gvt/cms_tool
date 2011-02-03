@@ -1,1 +1,6 @@
 %h1=@account.name
+%h2 Current Users
+
+%ul
+	-@account.users.each do	|user|
+		%li=user.login

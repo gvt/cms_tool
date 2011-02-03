@@ -13,7 +13,7 @@ class AccountsController < ApplicationController
     @account = Account.new(params[:account])
     respond_to do |format|
       if @account.save
-        format.html { redirect_to(users_dashboard_url, :notice => "User Created")}
+        format.html { redirect_to (user_dashboard_url, :notice => "User Created")}
       else
         format.html { render :action => "new", :error => @account.errors.full_messages.to_sentence }
       end

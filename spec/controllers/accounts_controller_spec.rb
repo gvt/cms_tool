@@ -19,6 +19,7 @@ describe AccountsController do
         @account = Factory.build :account, :name  => "bdfhdg1"
         @account.users << @user
       end
+      # TODO: fix this test make it better
       it "assigns newly created account to @account" do 
         post :create, :account  => @account.attributes
         assigns(:account).users << @user

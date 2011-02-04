@@ -16,6 +16,6 @@ Factory.define :user do |f|
 end
 
 Factory.define :account do |f| 
-  f.name 'Banana Seller'
+  f.sequence(:name) {|n| "Banana Seller#{n}"}
 end
 

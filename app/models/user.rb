@@ -7,4 +7,8 @@ class User < ActiveRecord::Base
   def name
     login
   end
+  # TODO: should we rename the "login" attrib?
+  def name=(x)
+    self[:login] = x
+  end
 end

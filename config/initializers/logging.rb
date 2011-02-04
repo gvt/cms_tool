@@ -1,0 +1,1 @@
+CmsTool::Application.config.colorize_logging = false

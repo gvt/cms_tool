@@ -16,26 +16,25 @@ describe AccountsController do
 
     describe "with valid params" do
 
-      before (:all) do
+      before :all do
         User.delete_all
         Account.delete_all
-        @user = Factory.build :user
-        @user.should be_valid
-        @account = Factory.build :account, :users => [@user]
-        @account.should be_valid 
+        @user_attribs    = Factory.attributes_for :user
+        @account_attribs = Factory.attributes_for :account
+        @user_attribs.delete :accounts
       end
 
-      # TODO: 
-      pending "assigns newly created account to @account" do
-        lambda { 
-          lambda{
-            post :create, {:account => @account.attributes, :users_attributes => [@user.attributes]}
+      it "assigns newly created account to @account" do
+        submit_attribs = @account_attribs.merge(:users_attributes => [@user_attribs])
+        lambda {
+          lambda {
+            post :create, {:account => submit_attribs}
             response.should redirect_to(user_dashboard_url)
           }.should change(Account,:count)
         }.should change(User,:count) 
 
-        assigns(:account).name.should eq(@account.name)
-        assigns(:account).users.should include(@user)
+        assigns(:account).name.should == @account_attribs[:name]
+        assigns(:account).users.first.login.should == @user_attribs[:login]
       end
 
       it "redirects to users/dashboard" do

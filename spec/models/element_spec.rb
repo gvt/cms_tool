@@ -10,7 +10,7 @@ describe Element do
   end
   
   it "owner actually exists" do
-    owner      = Factory.create :user
+    owner      = Factory.create :account
     element    = Factory.create :element, :owner => owner
     element_id = element.id
     element.owner.nil?.should == false

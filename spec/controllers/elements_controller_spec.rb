@@ -3,7 +3,10 @@ require 'spec_helper'
 describe ElementsController do
   before(:each) do
     activate_authlogic
-    UserSession.create Factory.build(:user)
+    Account.delete_all
+    UserSession.create @signin_user = Factory.build(:user)
+    @element = Factory.create(:element)
+    @request.host = "#{@element.owner.subdomain}.test.host"
   end
 
   def mock_element(stubs={})
@@ -19,10 +22,9 @@ describe ElementsController do
   end
 
   describe "GET index" do
-    it "assigns all elements as @elements" do
-      Element.stub(:all) { [mock_element] }
+    it "assigns all accounts elements as @elements" do
       get :index
-      assigns(:elements).should eq([mock_element])
+      assigns(:elements).should include(@element)
     end
   end
 
@@ -43,10 +45,6 @@ describe ElementsController do
       get :new
       assigns(:element).new_record?.should be_true 
     end
-    it "assigns all users to @users" do
-      get :new
-      assigns(:users).should eq([@user_mock])
-    end
   end
 
   describe "GET edit" do
@@ -59,10 +57,7 @@ describe ElementsController do
       get :edit, :id => @element_mock.id
       assigns(:element).should eq(@element_mock)
     end
-    it "assigns all users to @users" do
-      get :edit, :id => @element_mock.id
-      assigns(:users).first.should eq(@user_mock)
-    end
+
   end
 
   describe "POST create" do
@@ -78,6 +73,11 @@ describe ElementsController do
         Element.stub(:new) { mock_element(:save => true) }
         post :create, :element => {}
         response.should redirect_to(element_url(mock_element))
+      end
+      
+      it "assigns the element owner as current subdomain" do
+        post :create, :element => @element
+        Element.find(@element.id).owner.subdomain.should eq(@element.owner.subdomain)
       end
     end
 

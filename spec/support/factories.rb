@@ -1,7 +1,7 @@
 Factory.define :element do |f| 
   f.name 'On the Electrodynamics of Moving Bodies'
   f.body  'Some very important words.'
-  f.association :owner, :factory => :user
+  f.association :owner, :factory => :account
 end
 
 Factory.define :user do |f|

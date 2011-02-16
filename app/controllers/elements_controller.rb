@@ -1,12 +1,12 @@
 class ElementsController < ApplicationController
   before_filter :require_user, :except => :home_page
-  before_filter :fetch_users, :except =>  [:index, :destroy]
   
   # GET /elements
   # GET /elements.xml
   def index
-    @elements = Element.all
-
+    @account = Account.find_by_subdomain!(request.subdomain) 
+    @elements = @account.elements
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @elements }
@@ -37,13 +37,14 @@ class ElementsController < ApplicationController
 
   # GET /elements/1/edit
   def edit
-    @element = Element.find(params[:id])
+    @element = Element.find(params[:id]) 
   end
 
   # POST /elements
   # POST /elements.xml
   def create
     @element = Element.new(params[:element])
+    @element.owner = Account.find_by_subdomain!(request.subdomain) 
     respond_to do |format|
       if @element.save
         format.html { redirect_to(@element, :notice => 'Element was successfully created.') }
@@ -81,11 +82,5 @@ class ElementsController < ApplicationController
       format.html { redirect_to(elements_url) }
       format.xml  { head :ok }
     end
-  end
-
-
-private
-  def fetch_users
-    @users = User.all
   end
 end

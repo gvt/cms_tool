@@ -21,6 +21,7 @@ class ElementsController < ApplicationController
       if @element.owner == @account
         format.html # show.html.erb
         format.xml  { render :xml => @element }
+        format.json { render :json => @element }
       else
         format.html {redirect_to(account_path, :notice => "#{@account.name} does not own that element")}
       end

@@ -1,6 +1,5 @@
 class ElementsController < ApplicationController
   before_filter :require_user, :except => :home_page
-  
   # GET /elements
   # GET /elements.xml
   def index
@@ -17,10 +16,14 @@ class ElementsController < ApplicationController
   # GET /elements/1.xml
   def show
     @element = Element.find(params[:id])
-
+    @account = Account.find_by_subdomain!(request.subdomain)
     respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @element }
+      if @element.owner == @account
+        format.html # show.html.erb
+        format.xml  { render :xml => @element }
+      else
+        format.html {redirect_to(account_path, :notice => "#{@account.name} does not own that element")}
+      end
     end
   end
 
@@ -76,11 +79,14 @@ class ElementsController < ApplicationController
   # DELETE /elements/1.xml
   def destroy
     @element = Element.find(params[:id])
-    @element.destroy
-
+    @account = Account.find_by_subdomain!(request.subdomain)
     respond_to do |format|
-      format.html { redirect_to(elements_url) }
-      format.xml  { head :ok }
+      if @element.owner == @account
+        @element.destroy
+        format.html { redirect_to(elements_url) }
+      else
+        format.html {redirect_to(account_path, :notice => "#{@account.name} does not own that element")}
+      end
     end
   end
 end

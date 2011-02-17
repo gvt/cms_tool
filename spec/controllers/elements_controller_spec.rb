@@ -22,18 +22,32 @@ describe ElementsController do
   end
 
   describe "GET index" do
+    
     it "assigns all accounts elements as @elements" do
       get :index
       assigns(:elements).should include(@element)
     end
+  
   end
 
   describe "GET show" do
-    it "assigns the requested element as @element" do
-      Element.stub(:find).with("37") { mock_element }
-      get :show, :id => "37"
-      assigns(:element).should be(mock_element)
+    
+    describe "subdomain and element.owner are the same" do
+      it "assigns the requested element as @element" do
+        Element.stub(:find).with("37") { mock_element }
+        get :show, :id => "37"
+        assigns(:element).should be(mock_element)
+      end
     end
+    
+    describe "subdomain and element.owner are not the same" do
+      it "redirect to account_path" do
+        element = Factory.create(:element)
+        get :show , :id => "#{element.id}"
+        response.should redirect_to(account_url)
+      end
+    end
+  
   end
 
   describe "GET new" do
@@ -41,10 +55,12 @@ describe ElementsController do
       User.delete_all
       @user_mock = Factory.create(:user)
     end
+    
     it "assigns a new element as @element" do
       get :new
       assigns(:element).new_record?.should be_true 
     end
+  
   end
 
   describe "GET edit" do
@@ -137,16 +153,34 @@ describe ElementsController do
   end
 
   describe "DELETE destroy" do
-    it "destroys the requested element" do
-      Element.should_receive(:find).with("37") { mock_element }
-      mock_element.should_receive(:destroy)
-      delete :destroy, :id => "37"
-    end
+    
+    describe "subdomain and element.owner are the same" do
+      it "destroys the requested element" do
+        lambda {
+          delete :destroy, :id => "#{@element.id}"
+        }.should change(Element, :count).by(-1)
+      end
 
-    it "redirects to the elements list" do
-      Element.stub(:find) { mock_element }
-      delete :destroy, :id => "1"
-      response.should redirect_to(elements_url)
+      it "redirects to the elements list" do
+        delete :destroy, :id => "#{@element.id}"
+        response.should redirect_to(elements_url)
+      end
+    end
+    
+    describe "subdomain and element.owner are not the same" do
+      it "element should not be deleted" do
+        element = Factory.create(:element)
+        lambda {
+          delete :destroy, :id => "#{element.id}"
+        }.should_not change(Element, :count)
+        response.should redirect_to(account_url)
+      end
+      
+      it "should redirect to account_url" do
+        element = Factory.create(:element)
+        delete :destroy, :id => "#{element.id}"
+        response.should redirect_to(account_url)
+      end
     end
   end
 

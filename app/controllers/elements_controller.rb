@@ -1,9 +1,9 @@
 class ElementsController < ApplicationController
   before_filter :require_user, :except => :home_page
+  before_filter :find_account, :except => :new
   # GET /elements
   # GET /elements.xml
   def index
-    @account = Account.find_by_subdomain!(request.subdomain) 
     @elements = @account.elements
     
     respond_to do |format|
@@ -15,16 +15,11 @@ class ElementsController < ApplicationController
   # GET /elements/1
   # GET /elements/1.xml
   def show
-    @element = Element.find(params[:id])
-    @account = Account.find_by_subdomain!(request.subdomain)
+    @element = @account.elements.find(params[:id])
     respond_to do |format|
-      if @element.owner == @account
         format.html # show.html.erb
         format.xml  { render :xml => @element }
         format.json { render :json => @element }
-      else
-        format.html {redirect_to(account_path, :notice => "#{@account.name} does not own that element")}
-      end
     end
   end
 
@@ -41,14 +36,14 @@ class ElementsController < ApplicationController
 
   # GET /elements/1/edit
   def edit
-    @element = Element.find(params[:id]) 
+    @element = @account.elements.find(params[:id]) 
   end
 
   # POST /elements
   # POST /elements.xml
   def create
     @element = Element.new(params[:element])
-    @element.owner = Account.find_by_subdomain!(request.subdomain) 
+    @element.owner = @account
     respond_to do |format|
       if @element.save
         format.html { redirect_to(@element, :notice => 'Element was successfully created.') }
@@ -63,7 +58,7 @@ class ElementsController < ApplicationController
   # PUT /elements/1
   # PUT /elements/1.xml
   def update
-    @element = Element.find(params[:id])
+    @element = @account.elements.find(params[:id])
 
     respond_to do |format|
       if @element.update_attributes(params[:element])
@@ -79,15 +74,15 @@ class ElementsController < ApplicationController
   # DELETE /elements/1
   # DELETE /elements/1.xml
   def destroy
-    @element = Element.find(params[:id])
-    @account = Account.find_by_subdomain!(request.subdomain)
+    @element = @account.elements.find(params[:id])
+    @element.destroy
     respond_to do |format|
-      if @element.owner == @account
-        @element.destroy
         format.html { redirect_to(elements_url) }
-      else
-        format.html {redirect_to(account_path, :notice => "#{@account.name} does not own that element")}
-      end
     end
+  end
+  
+  private
+  def find_account
+    @account = Account.find_by_subdomain!(request.subdomain)
   end
 end

@@ -21,33 +21,18 @@ describe ElementsController do
     end
   end
 
-  describe "GET index" do
-    
+  describe "GET index" do 
     it "assigns all accounts elements as @elements" do
       get :index
       assigns(:elements).should include(@element)
     end
-  
   end
 
-  describe "GET show" do
-    
-    describe "subdomain and element.owner are the same" do
+  describe "GET show" do  
       it "assigns the requested element as @element" do
-        Element.stub(:find).with("37") { mock_element }
-        get :show, :id => "37"
-        assigns(:element).should be(mock_element)
+        get :show, :id => @element.id
+        assigns(:element).should eq(@element)
       end
-    end
-    
-    describe "subdomain and element.owner are not the same" do
-      it "redirect to account_path" do
-        element = Factory.create(:element)
-        get :show , :id => "#{element.id}"
-        response.should redirect_to(account_url)
-      end
-    end
-  
   end
 
   describe "GET new" do
@@ -64,14 +49,9 @@ describe ElementsController do
   end
 
   describe "GET edit" do
-    before(:each) do
-      User.delete_all
-      @user_mock = Factory.create(:user)
-      @element_mock = Factory.create(:element)
-    end
     it "assigns the requested element as @element" do
-      get :edit, :id => @element_mock.id
-      assigns(:element).should eq(@element_mock)
+      get :edit, :id => @element.id
+      assigns(:element).should eq(@element)
     end
 
   end
@@ -117,71 +97,40 @@ describe ElementsController do
   describe "PUT update" do
 
     describe "with valid params" do
+      before (:each) do
+        @element_attrib = Factory.attributes_for(:element, :owner => @element.owner, :id => @element.id, :name => "poiu")
+      end
       it "updates the requested element" do
-        Element.should_receive(:find).with("37") { mock_element }
-        mock_element.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, :id => "37", :element => {'these' => 'params'}
+        put :update, :id => @element.id, :element => @element_attrib
+        Element.find(@element.id).name.should eq("poiu")
       end
 
       it "assigns the requested element as @element" do
-        Element.stub(:find) { mock_element(:update_attributes => true) }
-        put :update, :id => "1"
-        assigns(:element).should be(mock_element)
+        put :update, :id => @element.id
+        assigns(:element).should eq(@element)
       end
 
       it "redirects to the element" do
-        Element.stub(:find) { mock_element(:update_attributes => true) }
-        put :update, :id => "1"
-        response.should redirect_to(element_url(mock_element))
+        put :update, :id => @element.id
+        response.should redirect_to(element_url(@element))
       end
     end
 
     describe "with invalid params" do
-      it "assigns the element as @element" do
-        Element.stub(:find) { mock_element(:update_attributes => false) }
-        put :update, :id => "1"
-        assigns(:element).should be(mock_element)
-      end
-
       it "re-renders the 'edit' template" do
-        Element.stub(:find) { mock_element(:update_attributes => false) }
-        put :update, :id => "1"
+        element_attrib = Factory.attributes_for(:element, :owner => @element.owner, :id => @element.id, :name => nil)
+        put :update, :id => @element.id, :element => element_attrib
         response.should render_template("edit")
       end
     end
 
   end
 
-  describe "DELETE destroy" do
-    
-    describe "subdomain and element.owner are the same" do
+  describe "DELETE destroy" do  
       it "destroys the requested element" do
         lambda {
-          delete :destroy, :id => "#{@element.id}"
+          delete :destroy, :id => @element.id
         }.should change(Element, :count).by(-1)
       end
-
-      it "redirects to the elements list" do
-        delete :destroy, :id => "#{@element.id}"
-        response.should redirect_to(elements_url)
-      end
-    end
-    
-    describe "subdomain and element.owner are not the same" do
-      it "element should not be deleted" do
-        element = Factory.create(:element)
-        lambda {
-          delete :destroy, :id => "#{element.id}"
-        }.should_not change(Element, :count)
-        response.should redirect_to(account_url)
-      end
-      
-      it "should redirect to account_url" do
-        element = Factory.create(:element)
-        delete :destroy, :id => "#{element.id}"
-        response.should redirect_to(account_url)
-      end
-    end
   end
-
 end

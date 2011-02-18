@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe Element do
+  before (:each) do
+    Element.delete_all
+    Account.delete_all
+  end
   it "no blank attributes" do
     element = Element.new
     element.valid?.should be_false
@@ -17,4 +21,9 @@ describe Element do
     Element.find(element_id).owner.should == owner
   end
 
+  it "produces proper JSON" do
+    element = Factory.create :element
+    json = element.to_json(:only => [ :id, :name ])
+    json.should eq "{\"name\":\"#{element.name}\",\"id\":#{element.id}}"
+  end
 end

@@ -65,10 +65,11 @@ describe ElementsController do
         assigns(:element).should be(mock_element)
       end
 
-      it "redirects to the created element" do
+      it "redirects to the created element with notice" do
         Element.stub(:new) { mock_element(:save => true) }
         post :create, :element => {}
         response.should redirect_to(element_url(mock_element))
+        flash[:notice].should_not be_nil
       end
       
       it "assigns the element owner as current subdomain" do
@@ -88,16 +89,14 @@ describe ElementsController do
       it "renders the new template" do  
         response.should render_template("new")
       end
-      it "has flash content" do
-        assigns[:element].errors.should_not be_empty
-      end
+
     end
   end
 
   describe "PUT update" do
 
     describe "with valid params" do
-      before (:each) do
+      before(:each) do
         @element_attrib = Factory.attributes_for(:element, :owner => @element.owner, :id => @element.id, :name => "poiu")
       end
       it "updates the requested element" do
@@ -113,6 +112,11 @@ describe ElementsController do
       it "redirects to the element" do
         put :update, :id => @element.id
         response.should redirect_to(element_url(@element))
+      end
+      
+      it "has a flash notice" do
+        put :update, :id => @element.id
+        flash[:notice].should_not be_nil
       end
     end
 
@@ -131,6 +135,11 @@ describe ElementsController do
         lambda {
           delete :destroy, :id => @element.id
         }.should change(Element, :count).by(-1)
+      end
+      
+      it "has a flash notice" do
+        delete :destroy, :id => @element.id
+        flash[:notice].should_not be_nil
       end
   end
 end

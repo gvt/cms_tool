@@ -9,6 +9,7 @@ class ElementsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @elements }
+      format.json { render :json => @elements }
     end
   end
 
@@ -31,6 +32,7 @@ class ElementsController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @element }
+      format.json { render :json => @element }
     end
   end
 
@@ -48,9 +50,11 @@ class ElementsController < ApplicationController
       if @element.save
         format.html { redirect_to(@element, :notice => 'Element was successfully created.') }
         format.xml  { render :xml => @element, :status => :created, :location => @element }
+        format.json { render :json => @element, :status => :created, :location =>@element }
       else
         format.html { render :action => "new", :error => @element.errors.full_messages.to_sentence }
         format.xml  { render :xml => @element.errors, :status => :unprocessable_entity }
+        format.json { render :json => @element.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -64,9 +68,11 @@ class ElementsController < ApplicationController
       if @element.update_attributes(params[:element])
         format.html { redirect_to(@element, :notice => 'Element was successfully updated.') }
         format.xml  { head :ok }
+        format.json { head :ok }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @element.errors, :status => :unprocessable_entity }
+        format.json { render :json => @element.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -77,7 +83,9 @@ class ElementsController < ApplicationController
     @element = @account.elements.find(params[:id])
     @element.destroy
     respond_to do |format|
-        format.html { redirect_to(elements_url) }
+        format.html { redirect_to(elements_url, :notice => 'Element was sucessfully destroyed.') }
+        format.json { head :ok }
+        format.xml  { head :ok }
     end
   end
   

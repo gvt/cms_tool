@@ -34,7 +34,7 @@ class AccountsController < ApplicationController
     
     # show what happened
     if @both_saved
-      redirect_to (user_dashboard_url, :notice => "User Created")
+      redirect_to(user_dashboard_url, :notice => "User Created")
     else
       render :action => "new", :error => @account.errors.full_messages.to_sentence
     end

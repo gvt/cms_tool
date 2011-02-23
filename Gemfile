@@ -2,7 +2,8 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.0.3'
 gem "autotest"
-gem 'authlogic'
+## Had to add a different fork of authlogic, maybe change back when he updates it?""
+gem 'authlogic', :git => 'git://github.com/odorcicd/authlogic.git', :branch => 'rails3'
 gem 'rails3-generators'
 gem "haml"
 gem "RedCloth"

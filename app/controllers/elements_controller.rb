@@ -52,6 +52,7 @@ class ElementsController < ApplicationController
         format.xml  { render :xml => @element, :status => :created, :location => @element }
         format.json { render :json => @element, :status => :created, :location =>@element }
       else
+        logger.warn("CREATING new element failed this these errors: #{@element.errors.full_messages.to_sentence}")
         format.html { render :action => "new", :error => @element.errors.full_messages.to_sentence }
         format.xml  { render :xml => @element.errors, :status => :unprocessable_entity }
         format.json { render :json => @element.errors, :status => :unprocessable_entity }
@@ -70,6 +71,7 @@ class ElementsController < ApplicationController
         format.xml  { head :ok }
         format.json { head :ok }
       else
+        logger.warn("UPDATING new element failed this these errors: #{@element.errors.full_messages.to_sentence}")
         format.html { render :action => "edit" }
         format.xml  { render :xml => @element.errors, :status => :unprocessable_entity }
         format.json { render :json => @element.errors, :status => :unprocessable_entity }

@@ -8,18 +8,6 @@ describe ElementsController do
     @element = Factory.create(:element)
     @request.host = "#{@element.owner.subdomain}.test.host"
   end
-
-  def mock_element(stubs={})
-    (@mock_element ||= mock_model(Element).as_null_object).tap do |element|
-      element.stub(stubs) unless stubs.empty?
-    end
-  end
-
-  def mock_user(stubs={})
-      (@mock_user ||= mock_model(User).as_null_object).tap do |user|
-        element.stub(stubs) unless stubs.empty?
-      end
-  end
     
   describe "GET index" do 
     it "assigns all accounts elements as @elements" do
@@ -70,16 +58,17 @@ describe ElementsController do
   describe "POST create" do
 
     describe "with valid params" do
+      before(:each) do
+        @element_attrib = Factory.attributes_for(:element)
+      end
       it "assigns a newly created element as @element" do
-        Element.stub(:new).with({'these' => 'params'}) { mock_element(:save => true) }
-        post :create, :element => {'these' => 'params'}
-        assigns(:element).should be(mock_element)
+        post :create, :element => @element_attrib
+        assigns(:element).name.should eq(@element_attrib.fetch(:name))
       end
 
       it "redirects to the created element with notice" do
-        Element.stub(:new) { mock_element(:save => true) }
-        post :create, :element => {}
-        response.should redirect_to(element_url(mock_element))
+        post :create, :element =>  @element_attrib
+        response.should redirect_to(element_url(assigns(:element)))
         flash[:notice].should_not be_nil
       end
       

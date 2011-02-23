@@ -1,6 +1,7 @@
 Factory.define :element do |f| 
   f.name 'On the Electrodynamics of Moving Bodies'
   f.body  'Some very important words.'
+  f.publish_effective_at "2013-02-15 23:35:00"
   f.association :owner, :factory => :account
 end
 

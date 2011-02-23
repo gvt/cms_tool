@@ -23,7 +23,7 @@ describe Element do
 
   it "produces proper JSON" do
     element = Factory.create :element
-    json = element.to_json(:only => [ :id, :name ])
-    json.should eq "{\"name\":\"#{element.name}\",\"id\":#{element.id}}"
+    json = element.to_json
+    json.should eq "{\"name\":\"#{element.name}\",\"created_at\":\"#{element.created_at.xmlschema}\",\"body\":\"#{element.body}\",\"updated_at\":\"#{element.updated_at.xmlschema}\",\"owner_id\":#{element.owner.id},\"id\":#{element.id},\"publish_effective_at\":\"#{element.publish_effective_at.xmlschema}\"}"
   end
 end

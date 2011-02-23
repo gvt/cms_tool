@@ -16,15 +16,21 @@ describe ElementsController do
   end
 
   def mock_user(stubs={})
-    (@mock_user ||= mock_model(User).as_null_object).tap do |user|
-      element.stub(stubs) unless stubs.empty?
-    end
+      (@mock_user ||= mock_model(User).as_null_object).tap do |user|
+        element.stub(stubs) unless stubs.empty?
+      end
   end
-
+    
   describe "GET index" do 
     it "assigns all accounts elements as @elements" do
       get :index
       assigns(:elements).should include(@element)
+    end
+    
+    it "can render correct JSON" do
+      @request.env["HTTP_ACCEPT"] = "application/json"
+      get :index
+      response.body.should eq(assigns(:elements).to_json)
     end
   end
 
@@ -33,6 +39,11 @@ describe ElementsController do
         get :show, :id => @element.id
         assigns(:element).should eq(@element)
       end
+      it "can render correct JSON" do
+         @request.env["HTTP_ACCEPT"] = "application/json"
+         get :show, :id => @element.id
+         response.body.should eq(assigns(:element).to_json)
+       end
   end
 
   describe "GET new" do
@@ -76,6 +87,13 @@ describe ElementsController do
         post :create, :element => @element
         Element.find(@element.id).owner.subdomain.should eq(@element.owner.subdomain)
       end
+      
+      it "can render correct JSON" do
+        @element_attrib = Factory.attributes_for(:element)
+        @request.env["HTTP_ACCEPT"] = "application/json"
+        post :create, :element => @element_attrib
+        response.body.should eq(assigns(:element).to_json)
+      end
     end
 
     describe "with invalid params" do
@@ -89,7 +107,11 @@ describe ElementsController do
       it "renders the new template" do  
         response.should render_template("new")
       end
-
+     it "can render correct JSON" do
+        @request.env["HTTP_ACCEPT"] = "application/json"
+        post :create, :element => {}
+        response.body.should eq(assigns(:element).errors.to_json)
+      end
     end
   end
 
@@ -118,13 +140,25 @@ describe ElementsController do
         put :update, :id => @element.id
         flash[:notice].should_not be_nil
       end
+      it "can render correct JSON" do
+        @request.env["HTTP_ACCEPT"] = "application/json"
+        post :update, :id => @element.id, :element => @element_attrib
+        response.should be_success
+      end
     end
 
     describe "with invalid params" do
+      before(:each) do
+          @element_attrib = Factory.attributes_for(:element, :owner => @element.owner, :id => @element.id, :name => nil)
+      end
       it "re-renders the 'edit' template" do
-        element_attrib = Factory.attributes_for(:element, :owner => @element.owner, :id => @element.id, :name => nil)
-        put :update, :id => @element.id, :element => element_attrib
+        put :update, :id => @element.id, :element => @element_attrib
         response.should render_template("edit")
+      end
+      it "can render correct JSON" do
+        @request.env["HTTP_ACCEPT"] = "application/json"
+        post :update, :id => @element.id, :element => @element_attrib
+        response.body.should eq(assigns(:element).errors.to_json)
       end
     end
 
@@ -140,6 +174,12 @@ describe ElementsController do
       it "has a flash notice" do
         delete :destroy, :id => @element.id
         flash[:notice].should_not be_nil
+      end
+      
+      it "can render correct JSON" do
+        @request.env["HTTP_ACCEPT"] = "application/json"
+        post :destroy, :id => @element.id
+        response.should be_success
       end
   end
 end

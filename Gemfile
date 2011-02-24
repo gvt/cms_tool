@@ -7,7 +7,7 @@ gem 'authlogic', :git => 'git://github.com/odorcicd/authlogic.git', :branch => '
 gem 'rails3-generators'
 gem "haml"
 gem "RedCloth"
-gem 'Heroku'
+gem 'heroku'
 group :production do
 	# mysql2 for use in Production env on EngineYard AppCloud
 	gem "mysql2"

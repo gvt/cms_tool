@@ -21,4 +21,6 @@ RSpec.configure do |config|
   # config.mock_with :flexmock
   # config.mock_with :rr
   config.mock_with :rspec
+
+  config.use_transactional_fixtures = true # works with factory_girl too. needed to avoid factory_girl making objects that collide with objects left by previous test runs
 end

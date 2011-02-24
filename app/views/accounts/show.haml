@@ -1,8 +1,32 @@
 %p.notice 
-	=notice
-%h1=@account.name
-%h2 Current Users
+	= notice
 
-%ul
-	-@account.users.each do	|user|
-		%li=user.login
+
+%h1
+	Your Account Dashboard
+
+
+%h2
+	Account name:
+	=@account.name
+
+
+%h2 Users belonging to this Account
+%p
+	= pluralize @account.users.size, 'user'
+	- if @account.users.any?
+	%ul
+		- @account.users.each do |user|
+			%li= user.login
+
+
+%h2 Elements belonging to this Account
+%div
+	= pluralize @account.elements.size, 'element'
+- if @account.elements.any?
+	%ul
+		- @account.elements.each do |element|
+			%li= element.login
+
+%div
+	= link_to "Element list", elements_path

@@ -2,17 +2,17 @@
 
 %table
 	%tr
-		%td Name
-		%td Body
-		%td Owner
-		%td Publish Date
+		%th Name
+		%th Owner
+		%th Publish Date
+		%th Body
 	
 	- @elements.each do |element| 
 		%tr
 			%td= element.name
-			%td= raw RedCloth.new(element.body).to_html
 			%td= element.owner.name
 			%td= element.publish_effective_at
+			%td= "#{element.body.size} characters"
 			%td= link_to 'Show', element
 			%td= link_to 'Edit', edit_element_path(element)
 			%td= link_to 'Destroy', element, :confirm => 'Are you sure?', :method => :delete 

@@ -1,6 +1,6 @@
 Factory.define :element do |f| 
-  f.name 'On the Electrodynamics of Moving Bodies'
-  f.body  'Some very important words.'
+  f.sequence(:name) {|n| "Succintly named #{n}" }
+  f.body  'On the Electrodynamics of Moving Bodies ...'
   f.publish_effective_at "2013-02-15 23:35:00"
   f.association :owner, :factory => :account
 end
@@ -17,6 +17,6 @@ Factory.define :user do |f|
 end
 
 Factory.define :account do |f| 
-  f.sequence(:name) {|n| "Banana Seller#{n}"}
+  f.sequence(:name) {|n| "Banana Seller #{n}"}
 end
 

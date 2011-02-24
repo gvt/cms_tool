@@ -7,8 +7,9 @@
 
 
 %p
-	%b Body:
-	=raw RedCloth.new(@element.body).to_html
+	%b Body processed:
+%div{:style => "border:2px solid #efefef; padding:6px"}
+	= raw @element.body
 
 
 %p

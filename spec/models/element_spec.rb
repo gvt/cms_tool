@@ -21,9 +21,17 @@ describe Element do
     Element.find(element_id).owner.should == owner
   end
 
-  it "produces proper JSON" do
-    element = Factory.create :element
-    json = element.to_json
-    json.should eq "{\"name\":\"#{element.name}\",\"created_at\":\"#{element.created_at.xmlschema}\",\"body\":\"#{element.body}\",\"updated_at\":\"#{element.updated_at.xmlschema}\",\"owner_id\":#{element.owner.id},\"id\":#{element.id},\"publish_effective_at\":\"#{element.publish_effective_at.xmlschema}\"}"
+  describe "to_json" do
+    it "works" do
+      element = Factory.create :element
+      json = element.to_json
+      json.should eq "{\"name\":\"#{element.name}\",\"created_at\":\"#{element.created_at.xmlschema}\",\"body\":\"#{element.body}\",\"updated_at\":\"#{element.updated_at.xmlschema}\",\"owner_id\":#{element.owner.id},\"id\":#{element.id},\"publish_effective_at\":\"#{element.publish_effective_at.xmlschema}\"}"
+    end
+
+    it "works including textilized body" do
+      element = Factory.create :element, :body => "*here* we go"
+      hash = ActiveSupport::JSON.decode(element.to_json).symbolize_keys
+      hash[:body].should include("<strong>here</strong>")
+    end
   end
 end

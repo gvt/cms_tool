@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe Account do
-  before (:each) do
-    User.delete_all
-    Account.delete_all
+  before :each do
     @account = Factory.create :account
     @user1   = Factory.build :user
   end

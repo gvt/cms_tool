@@ -2,8 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   helper_method :current_user_session, :current_user
   
-  def index
-  end
+  def index; end
 
   private
     def current_user_session
@@ -21,8 +20,7 @@ class ApplicationController < ActionController::Base
     def current_account
       logger.debug "ApplicationController::current_account"
       return @current_account if defined?(@current_account)
-      # KLUDGE: currently a User has many Accounts, but only one primary account. needs changed to User.account *singular*
-      @current_account = current_user && current_user.accounts.first
+      @current_account = current_user && current_user.account
     end
 
     def require_user

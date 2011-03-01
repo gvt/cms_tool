@@ -25,7 +25,7 @@ end
 def mock_signin
   activate_authlogic
   account = Factory.create :account
-  user    = Factory.create :user, :accounts => [account]
+  user    = Factory.create :user, :account => account
   UserSession.create user
   return user, account
 end

@@ -6,7 +6,7 @@ class AccountsController < ApplicationController
   
   def new
     @account = Account.new
-    @account.users.build
+    @account.build_user
   end
   
   def create

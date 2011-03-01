@@ -10,18 +10,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110224232725) do
+ActiveRecord::Schema.define(:version => 20110301225350) do
 
   create_table "accounts", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
     t.string   "subdomain"
-  end
-
-  create_table "accounts_users", :id => false, :force => true do |t|
-    t.integer "account_id"
-    t.integer "user_id"
   end
 
   create_table "elements", :force => true do |t|
@@ -41,6 +36,7 @@ ActiveRecord::Schema.define(:version => 20110224232725) do
     t.string   "perishable_token",  :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "account_id"
   end
 
 end

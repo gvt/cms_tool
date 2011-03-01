@@ -8,7 +8,7 @@ describe AccountsController do
     end
     it "builds a new user" do
       get :new
-      assigns(:account).users.should_not be_nil    
+      assigns(:account).user.should_not be_nil    
     end
   end
 
@@ -25,7 +25,7 @@ describe AccountsController do
       end
 
       it "assigns newly created account to @account" do
-        submit_attribs = @account_attribs.merge(:users_attributes => [@user_attribs])
+        submit_attribs = @account_attribs.merge(:user_attributes => @user_attribs)
         lambda {
           lambda {
             post :create, {:account => submit_attribs}
@@ -34,7 +34,7 @@ describe AccountsController do
         }.should change(User,:count) 
 
         assigns(:account).name.should == @account_attribs[:name]
-        assigns(:account).users.first.login.should == @user_attribs[:login]
+        assigns(:account).user.login.should == @user_attribs[:login]
       end
 
       it "redirects to users/dashboard" do

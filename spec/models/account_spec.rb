@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Account do
   before :each do
     @account = Factory.create :account
-    @user1   = Factory.build :user
+    @user    = Factory.build :user
   end
   
   describe "validations" do
@@ -15,56 +15,32 @@ describe Account do
 
   end
   
-  describe "association with users" do
+  describe "association with user" do
 
     it "is assigned 1 user" do
-      @account.users << @user1
-      @user1.save.should == true
+      @account.user = @user
+      @user.save.should == true
       account_id  = @account.id
       @account    = Account.find(account_id)
-      @account.users.size.should == 1
-      @account.users.include?(@user1).should be_true
+      @account.user.id.should === @user.id
     end
-
-    it "is assigned 2 users" do
-      @user2 = Factory.build :user
-      @account.users << @user1
-      @account.users << @user2
-      @account.users.size.should == 2
-      @account.users.should include(@user1)
-      @account.users.should include(@user2)
-    end  
 
   end
 
-  describe "accepts_nested_attributes_for :users" do
+  describe "accepts_nested_attributes_for :user" do
 
     it "works" do
       user_attribs = Factory.attributes_for :user
-      user_attribs.delete :accounts
+      user_attribs.delete :account
       account_attribs = {:name => 'qwerty'}
       lambda {
-        account = Account.new account_attribs.merge(:users_attributes => [user_attribs])
+        account = Account.new account_attribs.merge(:user_attributes => user_attribs)
         account.save.should be_true
         account.name.should == 'qwerty'
-        account.users.size.should == 1
+        account.user.should be_present
       }.should change(User, :count)
     end
 
   end
   
-  describe "test automatic creation subdomain" do
-
-    it "responds to_slug" do
-      @account.name.should respond_to(:to_slug)
-    end
-
-    it "creates a slug in account.subdomain" do
-      account = Factory.create(:account)
-      account_id = account.id
-      Account.find(account.id).subdomain.should eq(account.subdomain)
-    end
-
-  end
-
 end

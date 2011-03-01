@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_filter :require_user
+
   def dashboard
-    @accounts = current_user.accounts
+    @account = current_user.account
   end
 end

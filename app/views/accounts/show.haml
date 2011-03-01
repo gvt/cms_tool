@@ -11,15 +11,6 @@
 	=@account.name
 
 
-%h2 Users belonging to this Account
-%p
-	= pluralize @account.users.size, 'user'
-	- if @account.users.any?
-	%ul
-		- @account.users.each do |user|
-			%li= user.login
-
-
 %h2 Elements belonging to this Account
 %div
 	= pluralize @account.elements.size, 'element'

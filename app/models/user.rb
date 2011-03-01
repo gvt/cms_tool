@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   acts_as_authentic
-  has_and_belongs_to_many :accounts 
+  belongs_to :account
+
   ##
   # creates a name so that this class can be used more generically
   def name

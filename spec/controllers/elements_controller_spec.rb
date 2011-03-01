@@ -1,12 +1,9 @@
 require 'spec_helper'
 
 describe ElementsController do
-  before(:each) do
-    activate_authlogic
-    Account.delete_all
-    UserSession.create @signin_user = Factory.build(:user)
-    @element = Factory.create(:element)
-    @request.host = "#{@element.owner.subdomain}.test.host"
+  before :each do
+    @signin_user, @account = mock_signin
+    @element               = Factory.create :element, :account => @account
   end
     
   describe "GET index" do 
@@ -72,11 +69,6 @@ describe ElementsController do
         flash[:notice].should_not be_nil
       end
       
-      it "assigns the element owner as current subdomain" do
-        post :create, :element => @element
-        Element.find(@element.id).owner.subdomain.should eq(@element.owner.subdomain)
-      end
-      
       it "can render correct JSON" do
         @element_attrib = Factory.attributes_for(:element)
         @request.env["HTTP_ACCEPT"] = "application/json"
@@ -108,7 +100,7 @@ describe ElementsController do
 
     describe "with valid params" do
       before(:each) do
-        @element_attrib = Factory.attributes_for(:element, :owner => @element.owner, :id => @element.id, :name => "poiu")
+        @element_attrib = Factory.attributes_for(:element, :account => @element.account, :id => @element.id, :name => "poiu")
       end
       it "updates the requested element" do
         put :update, :id => @element.id, :element => @element_attrib
@@ -138,7 +130,7 @@ describe ElementsController do
 
     describe "with invalid params" do
       before(:each) do
-          @element_attrib = Factory.attributes_for(:element, :owner => @element.owner, :id => @element.id, :name => nil)
+          @element_attrib = Factory.attributes_for(:element, :account => @element.account, :id => @element.id, :name => nil)
       end
       it "re-renders the 'edit' template" do
         put :update, :id => @element.id, :element => @element_attrib

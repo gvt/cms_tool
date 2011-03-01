@@ -13,14 +13,19 @@ require "authlogic/test_case"
 include Authlogic::TestCase
 
 RSpec.configure do |config|
-  # == Mock Framework
-  #
-  # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
-  #
-  # config.mock_with :mocha
-  # config.mock_with :flexmock
-  # config.mock_with :rr
+
   config.mock_with :rspec
 
   config.use_transactional_fixtures = true # works with factory_girl too. needed to avoid factory_girl making objects that collide with objects left by previous test runs
+
+end
+
+##
+# simulate a signed-in User for testing controllers.
+def mock_signin
+  activate_authlogic
+  account = Factory.create :account
+  user    = Factory.create :user, :accounts => [account]
+  UserSession.create user
+  return user, account
 end

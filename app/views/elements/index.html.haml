@@ -10,12 +10,12 @@
 	- @elements.each do |element| 
 		%tr
 			%td= element.name
-			%td= element.owner.name
+			%td= element.account.name
 			%td= element.publish_effective_at
 			%td= "#{element.body.size} characters"
-			%td= link_to 'Show', element
+			%td= link_to 'Show', element_path(element)
 			%td= link_to 'Edit', edit_element_path(element)
-			%td= link_to 'Destroy', element, :confirm => 'Are you sure?', :method => :delete 
+			%td= link_to 'Destroy', element_path(element), :confirm => 'Are you sure?', :method => :delete
 
 %br
 

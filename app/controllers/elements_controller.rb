@@ -1,6 +1,6 @@
 class ElementsController < ApplicationController
-  before_filter :require_user, :except => :home_page
-  before_filter :find_account, :except => :new
+  before_filter :require_user, :find_account
+  
   # GET /elements
   # GET /elements.xml
   def index
@@ -45,7 +45,7 @@ class ElementsController < ApplicationController
   # POST /elements.xml
   def create
     @element = Element.new(params[:element])
-    @element.owner = @account
+    @element.account = @account
     respond_to do |format|
       if @element.save
         format.html { redirect_to(@element, :notice => 'Element was successfully created.') }
@@ -93,6 +93,6 @@ class ElementsController < ApplicationController
   
   private
   def find_account
-    @account = Account.find_by_subdomain!(request.subdomain)
+    @account = current_account
   end
 end

@@ -9,7 +9,7 @@ describe "elements/index.html.erb" do
     render
     @elements.each do |element|
       assert_select "tr>td:nth-child(1)", :text => element.name
-      assert_select "tr>td:nth-child(2)", :text => element.owner.name
+      assert_select "tr>td:nth-child(2)", :text => element.account.name
       assert_select "tr>td:nth-child(3)", :text => element.publish_effective_at
       assert_select "tr>td:nth-child(4)", :text => "#{element.body.size} characters"
     end

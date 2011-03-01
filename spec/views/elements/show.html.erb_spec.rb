@@ -9,6 +9,6 @@ describe "elements/show.html.erb" do
     render
     rendered.should match(@element.name)
     rendered.should match(@element.body)
-    rendered.should match(@element.owner.name)
+    rendered.should match(@element.account.name)
   end
 end

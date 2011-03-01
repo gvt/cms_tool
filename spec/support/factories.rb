@@ -2,7 +2,7 @@ Factory.define :element do |f|
   f.sequence(:name) {|n| "Succintly named #{n}" }
   f.body  'On the Electrodynamics of Moving Bodies ...'
   f.publish_effective_at "2013-02-15 23:35:00"
-  f.association :owner, :factory => :account
+  f.association :account
 end
 
 Factory.define :user do |f|

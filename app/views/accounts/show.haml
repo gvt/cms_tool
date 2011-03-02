@@ -1,9 +1,5 @@
-%p.notice 
-	= notice
-
-
 %h1
-	Your Account Dashboard
+	Your Account
 
 
 %h2
@@ -17,7 +13,6 @@
 - if @account.elements.any?
 	%ul
 		- @account.elements.each do |element|
-			%li= element.login
+			%li= element.name
 
-%div
-	= link_to "Element list", elements_path
+= link_to "Element list", elements_path

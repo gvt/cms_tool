@@ -1,7 +1,7 @@
 class AccountsController < ApplicationController
   
   def show
-    @account = Account.find_by_subdomain!(request.subdomain) 
+    @account = Account.find_by_id params[:id]
   end
   
   def new

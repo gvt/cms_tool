@@ -6,13 +6,26 @@
 		= javascript_include_tag :defaults
 		= csrf_meta_tag
 
-%body
-	#user_nav
-		- if current_user
-			= "Signed in as #{current_user.login}. Not you?"
-			= link_to "Sign out", logout_path
-		- else
-			= link_to "Sign in", new_user_session_path
 
-	= yield
 
+	%body
+		#user_nav
+			- if current_user
+				="Signed in as"
+				= link_to(current_user.login, account_path(current_user.account))
+				=". Not you?"
+				= link_to "Sign out", logout_path
+			- else
+				= link_to "Sign in", new_user_session_path
+
+
+		-#user feedback for error and notice
+		- !if flash[:notice].blank?
+			#notice
+				= flash[:notice]
+		- if !flash[:error].blank?
+			#error_explanation
+				= flash[:error]
+
+
+		= yield

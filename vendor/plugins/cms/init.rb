@@ -1,1 +1,1 @@
-# Include hook code here
+Cms::Base.load_config(Rails.env.test?)

@@ -20,5 +20,6 @@ group :test, :development do
   gem "rspec-rails", "~> 2.2.1"
   gem "factory_girl", :branch => 'rails3'
   gem 'factory_girl_rails'
+	gem 'mocha'
 end
 

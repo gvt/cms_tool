@@ -7,7 +7,7 @@ module Cms
     # attempt to load the config file
     def self.load_config(fake_it = false)
       return true if fake_it
-      config_file = @@config_filename || "cms_tool.config.rb"
+      config_file = @@config_filename || "cms_plugin.config.rb"
       config_path = File.join(Rails.root.to_s, 'config', config_file)
 
       raise Exception.new "config file absent, expected location [#{config_path}]" unless File.exists? config_path

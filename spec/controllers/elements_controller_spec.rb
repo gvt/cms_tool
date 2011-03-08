@@ -33,7 +33,6 @@ describe ElementsController do
 
   describe "GET new" do
     before(:each) do
-      User.delete_all
       @user_mock = Factory.create(:user)
     end
     

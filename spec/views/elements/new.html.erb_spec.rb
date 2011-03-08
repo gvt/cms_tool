@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe "elements/new.html.erb" do
   before(:each) do
-    User.delete_all
     assign(:element, Factory.build(:element))
     assign(:users, [Factory.create(:user), Factory.create(:user)])
   end

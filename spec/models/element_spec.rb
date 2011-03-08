@@ -1,11 +1,7 @@
 require 'spec_helper'
 
 describe Element do
-  before :each do
-    Element.delete_all
-    Account.delete_all
-  end
-
+  
   it "no blank attributes" do
     element = Element.new
     element.valid?.should be_false

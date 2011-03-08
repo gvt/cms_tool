@@ -17,8 +17,6 @@ describe AccountsController do
     describe "with valid params" do
 
       before :all do
-        User.delete_all
-        Account.delete_all
         @user_attribs    = Factory.attributes_for :user
         @account_attribs = Factory.attributes_for :account
         @user_attribs.delete :accounts

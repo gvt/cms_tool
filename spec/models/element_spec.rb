@@ -11,13 +11,30 @@ describe Element do
   end
   
   it "account actually exists" do
-    account      = Factory.create :account
+    account    = Factory.create :account
     element    = Factory.create :element, :account => account
     element_id = element.id
     element.account.nil?.should == false
     Element.find(element_id).account.should == account
   end
 
+  describe "body method" do
+    it "returns a HTML formatted body element" do
+      element = Factory.create :element, :body => "*Hello*"
+      element.body.should eq("<p><strong>Hello</strong></p>")
+    end
+    
+    it "returns nil is body is nil" do
+      element = Factory.build :element, :body => nil
+      element.body.should be_nil
+    end
+    
+    it "returns nothing is the body is blank" do
+      element = Factory.build :element, :body => ""
+      element.body.should eq("")
+    end
+  end
+    
   describe "to_json" do
     it "works" do
       element = Factory.create :element
